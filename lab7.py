@@ -1,55 +1,278 @@
-# lab7.py
+"""
+LAB 7 - ФУНКЦИИ И РЕКУРСИЯ
+Решения для всех заданий
+"""
 
-# Solutions for assignments about functions, scope, and recursion
-
-# 1. Function examples
+# ============================================================================
+# ЗАДАНИЕ 1: ФУНКЦИИ И ПАРАМЕТРЫ (БАЗОВЫЙ УРОВЕНЬ)
+# ============================================================================
 
 def add(a, b):
-    """Returns the sum of a and b."""
+    """Возвращает сумму двух чисел."""
     return a + b
 
-print("Addition of 5 and 3:", add(5, 3))
+def power(a, n=2):
+    """Возводит число в степень (по умолчанию в квадрат)."""
+    return a ** n
 
+def sum_all(*args):
+    """Возвращает сумму произвольного количества чисел."""
+    total = 0
+    for value in args:
+        total += value
+    return total
 
-def multiply(a, b):
-    """Returns the product of a and b."""
-    return a * b
+# Примеры использования Задания 1
+print("=" * 60)
+print("ЗАДАНИЕ 1: Функции и параметры")
+print("=" * 60)
+print(f"add(5, 3) = {add(5, 3)}")
+print(f"power(2) = {power(2)}")
+print(f"power(2, 3) = {power(2, 3)}")
+print(f"sum_all(1, 2, 3, 4, 5) = {sum_all(1, 2, 3, 4, 5)}")
+print()
 
-print("Multiplication of 5 and 3:", multiply(5, 3))
+# ============================================================================
+# ЗАДАНИЕ 2: ОБЛАСТЬ ВИДИМОСТИ (СРЕДНИЙ УРОВЕНЬ)
+# ============================================================================
 
+global_var = 100  # Глобальная переменная
 
-# 2. Scope examples
+def change_global():
+    """Попытка изменить глобальную переменную."""
+    global_var_local = 50  # Локальная переменная
+    print(f"Локальная переменная внутри функции: {global_var_local}")
 
-x = 10  # Global variable
+def change_global_correct():
+    """Правильное изменение глобальной переменной."""
+    global global_var
+    global_var = 200
+    print(f"Глобальная переменная после изменения: {global_var}")
 
-def local_scope_example():
-    y = 5  # Local variable
-    print("Inside local_scope_example, y:", y)
+print("=" * 60)
+print("ЗАДАНИЕ 2: Область видимости")
+print("=" * 60)
+print(f"Глобальная переменная перед функцией: {global_var}")
+change_global()
+print(f"Глобальная переменная после change_global(): {global_var}")
+change_global_correct()
+print(f"Глобальная переменная после change_global_correct(): {global_var}")
+print()
+print("ОБЪЯСНЕНИЕ:")
+print("- Локальная переменная существует только внутри функции")
+print("- Глобальная переменная доступна везде")
+print("- Для изменения глобальной переменной используется ключевое слово 'global'")
+print()
 
-local_scope_example()
-print("Outside function, x:", x)
+# ============================================================================
+# ЗАДАНИЕ 3: РЕКУРСИВНЫЙ ФАКТОРИАЛ
+# ============================================================================
 
-
-# 3. Recursive function examples
-
-# Factorial
-
-def factorial(n):
-    """Returns the factorial of n."""
-    if n == 0:
+def factorial_recursive(n):
+    """Рекурсивное вычисление факториала."""
+    if n < 0:
+        return "Ошибка: число не может быть отрицательным"
+    if n == 0 or n == 1:
         return 1
-    else:
-        return n * factorial(n - 1)
+    return n * factorial_recursive(n - 1)
 
-print("Factorial of 5:", factorial(5))
+def factorial_iterative(n):
+    """Итерационное вычисление факториал��."""
+    if n < 0:
+        return "Ошибка: число не может быть отрицательным"
+    result = 1
+    for i in range(2, n + 1):
+        result *= i
+    return result
 
-# Fibonacci
+print("=" * 60)
+print("ЗАДАНИЕ 3: Рекурсивный факториал")
+print("=" * 60)
+print(f"Рекурсивный факториал(5): {factorial_recursive(5)}")
+print(f"Итерационный факториал(5): {factorial_iterative(5)}")
+print()
+print("СРАВНЕНИЕ:")
+print("- Рекурсивная версия: красивая, но использует больше памяти (стек вызовов)")
+print("- Итерационная версия: эффективнее по памяти")
+print("- Сложность: обе O(n), но итерационная быстрее на практике")
+print()
+
+# ============================================================================
+# ЗАДАНИЕ 4: РЕКУРСИВНАЯ СУММА ЦИФР ЧИСЛА
+# ============================================================================
+
+def sum_digits(n):
+    """Рекурсивно возвращает сумму цифр числа."""
+    n = abs(n)  # Обработка отрицательных чисел
+    if n < 10:
+        return n
+    return (n % 10) + sum_digits(n // 10)
+
+print("=" * 60)
+print("ЗАДАНИЕ 4: Рекурсивная сумма цифр числа")
+print("=" * 60)
+print(f"sum_digits(1234) = {sum_digits(1234)}")
+print(f"sum_digits(245) = {sum_digits(245)}")
+print(f"sum_digits(999) = {sum_digits(999)}")
+print()
+
+# ============================================================================
+# ЗАДАНИЕ 5: РЕКУРСИВНАЯ ОБРАБОТКА СПИСКА
+# ============================================================================
+
+def max_element(arr, index=0):
+    """Рекурсивно находит максимальный элемент списка."""
+    if index == len(arr) - 1:
+        return arr[index]
+    
+    max_rest = max_element(arr, index + 1)
+    return arr[index] if arr[index] > max_rest else max_rest
+
+print("=" * 60)
+print("ЗАДАНИЕ 5: Рекурсивная обработка списка")
+print("=" * 60)
+arr = [3, 7, 2, 9, 1, 5]
+print(f"Список: {arr}")
+print(f"Максимальный элемент: {max_element(arr)}")
+print()
+
+# ============================================================================
+# ДОПОЛНИТЕЛЬНОЕ ЗАДАНИЕ: ЧИСЛА ФИБОНАЧЧИ
+# ============================================================================
 
 def fibonacci(n):
-    """Returns the n-th Fibonacci number."""
+    """Рекурсивное вычисление n-го числа Фибоначчи."""
     if n <= 1:
         return n
-    else:
-        return fibonacci(n - 1) + fibonacci(n - 2)
+    return fibonacci(n - 1) + fibonacci(n - 2)
 
-print("Fibonacci of 6:", fibonacci(6))
+def fibonacci_optimized(n, memo={});
+    """Оптимизированное вычисление с мемоизацией."""
+    if n in memo:
+        return memo[n]
+    if n <= 1:
+        return n
+    memo[n] = fibonacci_optimized(n - 1, memo) + fibonacci_optimized(n - 2, memo)
+    return memo[n]
+
+print("=" * 60)
+print("ДОПОЛНИТЕЛЬНОЕ ЗАДАНИЕ: Числа Фибоначчи")
+print("=" * 60)
+print(f"fibonacci(6) = {fibonacci(6)}")
+print(f"fibonacci_optimized(6) = {fibonacci_optimized(6)}")
+print()
+print("АНАЛИЗ СЛОЖНОСТИ:")
+print("- Простая рекурсия: O(2^n) - экспоненциальная сложность")
+print("- С мемоизацией: O(n) - линейная сложность")
+print()
+
+# ============================================================================
+# ПРАКТИЧЕСКИЕ ЗАДАЧИ (БАЗОВЫЙ УРОВЕНЬ)
+# ============================================================================
+
+print("=" * 60)
+print("ПРАКТИЧЕСКИЕ ЗАДАЧИ (БАЗОВЫЙ УРОВЕНЬ)")
+print("=" * 60)
+
+# Задача 1: Функция среднего значения
+def average(a, b, c):
+    """Возвращает среднее арифметическое трёх чисел."""
+    return (a + b + c) / 3
+
+print(f"Задача 1 - average(5, 10, 15) = {average(5, 10, 15)}")
+
+# Задача 2: Проверка чётности
+def is_even(n):
+    """Возвращает True, если число чётное, иначе False."""
+    return n % 2 == 0
+
+print(f"Задача 2 - is_even(4) = {is_even(4)}, is_even(7) = {is_even(7)}")
+
+# Задача 3: Степень числа с параметром по умолчанию
+# (уже реализовано выше как power())
+print(f"Задача 3 - power(3) = {power(3)}, power(3, 3) = {power(3, 3)}")
+
+# Задача 4: Сумма произвольного количества чисел
+# (уже реализовано выше как sum_all())
+print(f"Задача 4 - sum_all(1, 2, 3, 4) = {sum_all(1, 2, 3, 4)}")
+
+# Задача 5: Рекурсивный вывод чисел от n до 1
+def print_numbers(n):
+    """Рекурсивно выводит числа от n до 1."""
+    if n < 1:
+        return
+    print(n, end=" ")
+    print_numbers(n - 1)
+
+print("\nЗадача 5 - Числа от 5 до 1: ", end="")
+print_numbers(5)
+print("\n")
+
+# ============================================================================
+# ПРАКТИЧЕСКИЕ ЗАДАЧИ (СРЕДНЯЯ СЛОЖНОСТЬ)
+# ============================================================================
+
+print("=" * 60)
+print("ПРАКТИЧЕСКИЕ ЗАДАЧИ (СРЕДНЯЯ СЛОЖНОСТЬ)")
+print("=" * 60)
+
+# Задача 6: Рекурсивная сумма цифр числа
+# (уже реализовано выше)
+print(f"Задача 6 - sum_digits(245) = {sum_digits(245)}")
+
+# Задача 7: Проверка палиндрома (рекурсивно)
+def is_palindrome(text):
+    """Рекурсивно проверяет, является ли строка палиндромом."""
+    text = text.lower().replace(" ", "")
+    if len(text) <= 1:
+        return True
+    if text[0] != text[-1]:
+        return False
+    return is_palindrome(text[1:-1])
+
+print(f"Задача 7 - is_palindrome('radar') = {is_palindrome('radar')}")
+print(f"          is_palindrome('hello') = {is_palindrome('hello')}")
+
+# Задача 8: Рекурсивный поиск максимального элемента списка
+# (уже реализовано выше)
+print(f"Задача 8 - max_element([3, 7, 2, 9, 1]) = {max_element([3, 7, 2, 9, 1])}")
+
+# Задача 9: Быстрое возведение в степень (рекурсивно)
+def fast_power(a, n):
+    """Рекурсивное быстрое возведение в степень."""
+    if n == 0:
+        return 1
+    if n == 1:
+        return a
+    if n % 2 == 0:
+        half = fast_power(a, n // 2)
+        return half * half
+    else:
+        return a * fast_power(a, n - 1)
+
+print(f"Задача 9 - fast_power(2, 10) = {fast_power(2, 10)}")
+
+# Задача 10: Подсчёт глубины рекурсии
+depth_counter = 0
+
+def count_depth(n):
+    """Рекурсивно уменьшает число до 0 и возвращает количество вызовов."""
+    global depth_counter
+    if n == 0:
+        return 0
+    depth_counter += 1
+    return 1 + count_depth(n - 1)
+
+depth_counter = 0
+result = count_depth(5)
+print(f"Задача 10 - Глубина рекурсии для count_depth(5) = {result}")
+
+print("\nВЫВОД О СЛОЖНОСТИ:")
+print("- Глубина рекурсии пропорциональна значению n: O(n)")
+print("- Каждый вызов занимает память в стеке вызовов")
+print("- Слишком глубокая рекурсия может привести к переполнению стека")
+print()
+
+print("=" * 60)
+print("ВСЕ ЗАДАНИЯ ЗАВЕРШЕНЫ")
+print("=" * 60)
