@@ -1,55 +1,91 @@
 class Node:
+    """
+    Задача 1: Класс узла (Node)
+    Содержит данные и ссылку на следующий узел.
+    """
+
     def __init__(self, data):
         self.data = data
         self.next = None
 
+
 class LinkedList:
+    """
+    Задача 2: Класс связного списка (LinkedList)
+    """
+
     def __init__(self):
         self.head = None
 
-    def add_at_beginning(self, data):
+    def add_to_front(self, data):
+        """
+        Задача 3: Добавление элемента в начало списка.
+        """
         new_node = Node(data)
         new_node.next = self.head
         self.head = new_node
 
-    def add_at_end(self, data):
+    def append(self, data):
+        """
+        Задача 4: Добавление элемента в конец списка.
+        """
         new_node = Node(data)
         if not self.head:
             self.head = new_node
             return
+
         last = self.head
         while last.next:
             last = last.next
         last.next = new_node
 
     def display(self):
+        """
+        Задача 5: Вывод всех элементов списка.
+        """
         current = self.head
+        elements = []
         while current:
-            print(current.data, end=' -> ')
+            elements.append(str(current.data))
             current = current.next
-        print('None')
+        print(" → ".join(elements) if elements else "Список пуст")
 
-    def search(self, key):
+    def search(self, value):
+        """
+        Задача 6: Поиск элемента в списке.
+        Возвращает True, если элемент найден, иначе False.
+        """
         current = self.head
         while current:
-            if current.data == key:
+            if current.data == value:
                 return True
             current = current.next
         return False
 
     def delete_first(self):
+        """
+        Задача 7: Удаление первого элемента списка.
+        """
         if self.head:
             self.head = self.head.next
+        else:
+            print("Ошибка: Список пуст, нечего удалять.")
 
-    def count(self):
-        current = self.head
+    def count_elements(self):
+        """
+        Задача 8: Подсчёт количества элементов.
+        """
         count = 0
+        current = self.head
         while current:
             count += 1
             current = current.next
         return count
 
-    def reverse_list(self):
+    def reverse(self):
+        """
+        Задача 10: Разворот связного списка.
+        """
         prev = None
         current = self.head
         while current:
@@ -59,40 +95,46 @@ class LinkedList:
             current = next_node
         self.head = prev
 
-# User Input Program
-if __name__ == '__main__':
-    ll = LinkedList()
-    while True:
-        print('\nOptions:')
-        print('1. Add at Beginning')
-        print('2. Add at End')
-        print('3. Display')
-        print('4. Search')
-        print('5. Delete First')
-        print('6. Count')
-        print('7. Reverse List')
-        print('8. Exit')
-        choice = int(input('Enter choice: '))
-        if choice == 1:
-            data = input('Enter value to add at beginning: ')
-            ll.add_at_beginning(data)
-        elif choice == 2:
-            data = input('Enter value to add at end: ')
-            ll.add_at_end(data)
-        elif choice == 3:
-            ll.display()
-        elif choice == 4:
-            key = input('Enter value to search: ')
-            found = ll.search(key)
-            print('Found' if found else 'Not Found')
-        elif choice == 5:
-            ll.delete_first()
-        elif choice == 6:
-            print('Count:', ll.count())
-        elif choice == 7:
-            ll.reverse_list()
-            print('List reversed')
-        elif choice == 8:
-            break
-        else:
-            print('Invalid choice!')
+
+# -
+
+if __name__ == "__main__":
+    print("--- Выполнение Лабораторной работы №9 ---")
+
+    # Задача 1 & 2: Создание списка и узлов
+    llist = LinkedList()
+
+    # Задача 9: Считывание 5 чисел от пользователя
+    print("\nЗадача 9: Введите 5 чисел для добавления в список:")
+    for i in range(5):
+        try:
+            num = int(input(f"Введите число {i + 1}: "))
+            llist.append(num)
+        except ValueError:
+            print("Ошибка ввода. Будет добавлено значение 0.")
+            llist.append(0)
+
+    print("\nВаш список:")
+    llist.display()
+
+    # Задача 3: Добавление в начало
+    print("\nДобавляем 100 в начало:")
+    llist.add_to_front(100)
+    llist.display()
+
+    #  Задача 8: Подсчёт
+    print(f"Количество элементов: {llist.count_elements()}")
+
+    #  Задача 6: Поиск
+    search_val = 100
+    print(f"Поиск элемента {search_val}: {llist.search(search_val)}")
+
+    # Демонстрация Задача 7: Удаление первого
+    print("\nУдаление первого элемента:")
+    llist.delete_first()
+    llist.display()
+
+    #  Задача 10: Разворот
+    print("\nРазворот списка:")
+    llist.reverse()
+    llist.display()
