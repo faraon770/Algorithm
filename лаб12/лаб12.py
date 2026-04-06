@@ -1,45 +1,61 @@
-# Task 1
+# Лабораторная работа №12: Хеширование (Python)
 
-def hash_function_example(input):
-    # Example of a simple hash function implementation
-    return hash(input) % 100
+# 1-3. Создание словаря и вывод элементов
+# Создаем словарь (dict) с данными студентов
+students = {
+    101: "Иванов Иван",
+    102: "Петров Петр",
+    103: "Сидоров Сидор",
+    104: "Алексеев Алексей"
+}
+print("1-3. Исходный словарь студентов:", students)
 
-# Task 2
+# 4. Проверка существования ключа
+key_to_check = 102
+if key_to_check in students:
+    print(f"4. Студент с ID {key_to_check} найден: {students[key_to_check]}")
 
-def check_collision(key1, key2):
-    return hash_function_example(key1) == hash_function_example(key2)
+# 5. Удаление элемента по ключу
+removed_student = students.pop(103)
+print(f"5. Удален студент: {removed_student}. Обновленный словарь: {students}")
 
-# Task 3
+# 6. Очистка словаря
+temp_dict = students.copy()
+temp_dict.clear()
+print("6. Словарь после очистки clear():", temp_dict)
 
-class HashTable:
-    def __init__(self):
-        self.table = [None] * 100
-    # Task 4
+# 7. Работа с множествами (set)
+set_a = {1, 2, 3, 4, 5}
+set_b = {4, 5, 6, 7, 8}
+print(f"7. Множество A: {set_a}, Множество B: {set_b}")
+
+# 8. Операции над множествами
+print("8. Объединение:", set_a | set_b)
+print("   Пересечение:", set_a & set_b)
+print("   Разность (A-B):", set_a - set_b)
+
+# 9. Добавление и удаление в set
+set_a.add(10)
+set_a.discard(1) # удаляет 1, если она есть
+print("9. Множество A после изменений:", set_a)
+
+# 10. Реализация простейшей хеш-таблицы (на базе списка)
+class SimpleHashTable:
+    def __init__(self, size):
+        self.size = size
+        self.table = [None] * size
+
+    def _hash_function(self, key):
+        return hash(key) % self.size
+
     def insert(self, key, value):
-        index = hash_function_example(key)
+        index = self._hash_function(key)
         self.table[index] = value
-    # Task 5
-    def get(self, key):
-        index = hash_function_example(key)
-        return self.table[index]
-    # Task 6
-    def remove(self, key):
-        index = hash_function_example(key)
-        self.table[index] = None
-    # Task 7
-    def display(self):
-        for index, value in enumerate(self.table):
-            if value is not None:
-                print(f'Index: {index}, Value: {value}') 
-    # Task 8
-    def is_empty(self):
-        return all(value is None for value in self.table)
-    # Task 9
-    def size(self):
-        return sum(1 for value in self.table if value is not None)
-  
-# Task 10
 
-table = HashTable()
-table.insert('key1', 'value1')
-table.display()
+    def get(self, key):
+        index = self._hash_function(key)
+        return self.table[index]
+
+hash_tab = SimpleHashTable(10)
+hash_tab.insert("user1", "Admin")
+print(f"10. Данные из хеш-таблицы по ключу 'user1': {hash_tab.get('user1')}")
